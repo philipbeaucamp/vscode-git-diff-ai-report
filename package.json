@@ -1,7 +1,7 @@
 {
   "name": "git-diff-ai-report",
   "displayName": "git-diff-ai-report",
-  "description": "Description goes here",
+  "description": "Generate beautiful, structured AI-powered changelog reports from git diffs — directly inside VS Code.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.110.0"
@@ -11,6 +11,10 @@
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
+	"repository": {
+  "type": "git",
+  "url": "https://github.com/philipbeaucamp/vscode-git-diff-ai-report.git"
+	},
   "contributes": {
     "commands": [
 			{
