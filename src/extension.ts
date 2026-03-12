@@ -140,6 +140,14 @@ async function getTags(git: ReturnType<typeof simpleGit>): Promise<[string, stri
 
 export function activate(context: vscode.ExtensionContext) {
 
+	// Registering a command to open settings easily
+	vscode.commands.registerCommand('git-diff-ai-report.openSettings', () => {
+  vscode.commands.executeCommand(
+    'workbench.action.openSettings',
+    'gitDiffAiReport'
+		);
+	});
+
   // Command 1: Configure API keys
   const configureCmd = vscode.commands.registerCommand(
     'git-diff-ai-report.configure',
@@ -217,6 +225,15 @@ export function activate(context: vscode.ExtensionContext) {
           // Get diff
           const diff = await git.diff([`${fromTag}..${toTag}`]);
           const stat = await git.diff([`${fromTag}..${toTag}`, '--stat']);
+
+					if (diff.length > 100000) {
+						const proceed = await vscode.window.showWarningMessage(
+							`Diff is very large (${diff.length} chars). This may hit token limits. Continue?`,
+							'Yes', 'No'
+						);
+						if (proceed !== 'Yes') {return;}
+					}
+
           const lang = config.get<string>('reportLanguage') ?? 'English';
 						
           // Build the filled template header
@@ -254,7 +271,7 @@ export function activate(context: vscode.ExtensionContext) {
 					const modelId = config.get<string>('modelId') ?? 'claude-sonnet-4-20250514';
 					const maxTokens = config.get<number>('maxTokens') ?? 4096;
 
-					const response = await (client as Anthropic).messages.create({
+					const response = await client.messages.create({
 						model: modelId,
 						max_tokens: maxTokens,
 						messages: [{ role: 'user', content: prompt }]

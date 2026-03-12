@@ -20,6 +20,10 @@
 			{
 				"command": "git-diff-ai-report.configure",
 				"title": "Git Diff: Configure API Keys"
+			},
+			{
+				"command": "git-diff-ai-report.openSettings",
+				"title": "Git Diff: Open Settings"
 			}
     ],
 		"configuration": {
