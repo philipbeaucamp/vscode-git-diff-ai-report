@@ -1,0 +1,85 @@
+{
+  "name": "git-diff-ai-report",
+  "displayName": "git-diff-ai-report",
+  "description": "Description goes here",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+			{
+				"command": "git-diff-ai-report.generateReport",
+				"title": "Git Diff: Generate AI Report"
+			},
+			{
+				"command": "git-diff-ai-report.configure",
+				"title": "Git Diff: Configure API Keys"
+			}
+    ],
+		"configuration": {
+			"title": "Git Diff AI Report",
+			"properties": {
+				"gitDiffAiReport.provider": {
+					"type": "string",
+					"enum": ["anthropic", "bedrock"],
+					"default": "anthropic",
+					"description": "AI provider to use"
+				},
+				"gitDiffAiReport.awsProfile": {
+					"type": "string",
+					"default": "default",
+					"description": "AWS profile name (only used when provider is bedrock)"
+				},
+				"gitDiffAiReport.awsRegion": {
+					"type": "string",
+					"default": "us-east-2",
+					"description": "AWS region (only used when provider is bedrock)"
+				},
+				"gitDiffAiReport.reportLanguage": {
+					"type": "string",
+					"default": "English",
+					"description": "Language for the generated report"
+				},
+				"gitDiffAiReport.modelId": {
+					"type": "string",
+					"default": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+					"description": "Model ID to use (Anthropic or Bedrock model string)"
+				},
+				"gitDiffAiReport.maxTokens": {
+					"type": "number",
+					"default": 4096,
+					"description": "Max tokens for the AI response"
+				}
+			}
+		}
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.110.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "@anthropic-ai/bedrock-sdk": "^0.26.4",
+    "@anthropic-ai/sdk": "^0.78.0",
+    "simple-git": "^3.33.0"
+  }
+}
